@@ -1,13 +1,14 @@
 // Uday Crackers — Gen-Z Interactive Script
 // Features:
 // - Mobile nav drawer toggle
-// - Hero spark canvas particles
+// - Hero spark canvas particles (perf-friendly)
 // - Countdown timer
 // - Product card sound effects
 // - Sliders (deals/reviews)
-// - Masonry lightbox placeholder
-// - Festive popup + contact form feedback
-
+// - Lazy masonry images enhancements
+// - Festive popup (once per session)
+// - Contact form feedback
+// - Parallax + small performance tweaks
 (() => {
   const $ = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
@@ -18,137 +19,158 @@
     const drawer = $('#mobileMenu');
     if (burger && drawer) {
       burger.addEventListener('click', () => {
-        const open = drawer.hasAttribute('hidden') ? false : true;
+        const open = !drawer.hasAttribute('hidden');
         if (open) drawer.setAttribute('hidden',''); else drawer.removeAttribute('hidden');
         burger.setAttribute('aria-expanded', String(!open));
       });
       drawer.addEventListener('click', e => {
-        if (e.target.tagName === 'A') { drawer.setAttribute('hidden',''); burger.setAttribute('aria-expanded','false'); }
+        if (e.target.tagName === 'A') {
+          drawer.setAttribute('hidden','');
+          burger.setAttribute('aria-expanded','false');
+        }
       });
     }
 
-    // Smooth scroll and active link
+    // Smooth scroll + active link state
     $$('.nav-links a').forEach(a => a.addEventListener('click', e => {
       const href = a.getAttribute('href');
       if (!href || !href.startsWith('#')) return;
       e.preventDefault();
       const el = $(href);
       if (el) el.scrollIntoView({behavior:'smooth'});
+      $$('.nav-links a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
     }));
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = '#'+entry.target.id;
-          $$('.nav-links a').forEach(l => l.classList.toggle('active', l.getAttribute('href')===id));
-        }
-      });
-    }, { threshold: 0.6 });
-    ['home','products','deals','gallery','reviews','contact'].forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
 
-    // Countdown
-    const timerEl = $('#countdownTimer');
-    function targetDate(){ return new Date('2025-10-29T00:00:00'); }
+    // Year in footer
+    const y = $('#year'); if (y) y.textContent = String(new Date().getFullYear());
+
+    // Festive popup (once per session)
+    const popup = $('#festivePopup');
+    if (popup && !sessionStorage.getItem('uday_popup_shown')) {
+      try { popup.showModal?.(); sessionStorage.setItem('uday_popup_shown','1'); } catch {}
+    }
+
+    // Countdown to Diwali sale end (example: Nov 1 current year)
+    const target = new Date(new Date().getFullYear(), 10, 1, 23, 59, 59); // Nov 1
+    const box = $('#countdownTimer');
+    function two(n){return n<10?`0${n}`:String(n)}
     function tick(){
-      if (!timerEl) return;
-      const t = targetDate().getTime() - Date.now();
-      if (t <= 0) { timerEl.textContent = 'Live now ✨'; return; }
-      const d = Math.floor(t/86400000);
-      const h = Math.floor((t%86400000)/3600000);
-      const m = Math.floor((t%3600000)/60000);
-      const s = Math.floor((t%60000)/1000);
-      timerEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
+      if (!box) return;
+      const now = new Date();
+      let diff = Math.max(0, target - now);
+      const d = Math.floor(diff/86400000); diff-= d*86400000;
+      const h = Math.floor(diff/3600000); diff-= h*3600000;
+      const m = Math.floor(diff/60000); diff-= m*60000;
+      const s = Math.floor(diff/1000);
+      box.textContent = `${d}d ${two(h)}h ${two(m)}m ${two(s)}s`;
     }
-    tick(); setInterval(tick, 1000);
+    tick(); const t = setInterval(tick, 1000);
 
-    // Product card sounds
-    const audioCache = new Map();
-    function play(url){
-      if (!url) return;
-      let a = audioCache.get(url);
-      if (!a) { a = new Audio(url); audioCache.set(url,a); }
-      a.currentTime = 0; a.play().catch(()=>{});
-    }
-    $$('.crack-btn').forEach(btn => btn.addEventListener('click', () => play(btn.dataset.sound)));
-
-    // Hero spark particles
-    initSparks();
-
-    // Sliders
-    $$('.slider').forEach(setupSlider);
-
-    // Popup once per session
-    const pop = $('#festivePopup');
-    if (pop && !sessionStorage.getItem('festivalSeen')) {
-      pop.showModal();
-      pop.addEventListener('close', () => sessionStorage.setItem('festivalSeen','1'), { once: true });
-    }
-
-    // Contact mock submit
-    const formBtn = $('#formPing');
-    const note = $('#formNote');
-    if (formBtn && note) {
-      formBtn.addEventListener('click', () => {
-        note.textContent = 'Thanks! We will reach out on WhatsApp shortly.';
-        setTimeout(()=> note.textContent = '', 4000);
+    // Hero spark canvas particles
+    const canvas = $('#sparkCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d', { alpha: true });
+      let w=canvas.width=canvas.offsetWidth, h=canvas.height=canvas.offsetHeight;
+      const DPR = Math.min(2, window.devicePixelRatio||1);
+      canvas.width = w*DPR; canvas.height = h*DPR; ctx.scale(DPR,DPR);
+      let particles = [];
+      const colors = ['#ffd166','#ff6b6b','#4dffb8','#a78bfa'];
+      function spawn(){
+        const x = Math.random()*w, y = Math.random()*h*0.6 + 10;
+        const vx = (Math.random()-0.5)*0.6, vy = -Math.random()*1.2 - .3;
+        const life = 60 + Math.random()*40;
+        particles.push({x,y,vx,vy,life,c: colors[(Math.random()*colors.length)|0]});
+        if (particles.length>220) particles.shift();
+      }
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        particles.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.life-=1;
+          ctx.globalAlpha = Math.max(0, p.life/100);
+          ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x,p.y,1.6,0,Math.PI*2); ctx.fill();
+        });
+        particles = particles.filter(p=>p.life>0);
+        for(let i=0;i<4;i++) spawn();
+        raf = requestAnimationFrame(step);
+      }
+      let raf = requestAnimationFrame(step);
+      const ro = new ResizeObserver(entries => {
+        const cr = entries[0].contentRect; w=cr.width; h=cr.height;
+        canvas.width = w*DPR; canvas.height = h*DPR; ctx.scale(DPR,DPR);
+      });
+      ro.observe(canvas);
+      document.addEventListener('visibilitychange',()=>{
+        if (document.hidden){ cancelAnimationFrame(raf); }
+        else { raf = requestAnimationFrame(step); }
       });
     }
 
-    // Footer year
-    const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
+    // Product card sound effects
+    const audioCache = new Map();
+    function play(src){
+      if (!src) return;
+      let a = audioCache.get(src);
+      if (!a){ a = new Audio(src); audioCache.set(src, a); }
+      a.currentTime = 0; a.volume = 0.6; a.play().catch(()=>{});
+    }
+    $$('.crack-btn').forEach(btn=> btn.addEventListener('click',()=> play(btn.getAttribute('data-sound'))));
+
+    // Sound toggle demo (mute/unmute all cached sounds)
+    const soundBtn = $('#soundToggle');
+    if (soundBtn) {
+      soundBtn.addEventListener('click',()=>{
+        const pressed = soundBtn.getAttribute('aria-pressed') === 'true';
+        soundBtn.setAttribute('aria-pressed', String(!pressed));
+        audioCache.forEach(a=>{ a.muted = pressed ? false : true; });
+      });
+    }
+
+    // Simple sliders (scroll-snap based with buttons)
+    $$('[data-slider]').forEach(slider => {
+      const slides = $('.slides', slider);
+      const prev = $('.slide-nav.prev', slider);
+      const next = $('.slide-nav.next', slider);
+      if (!slides) return;
+      const step = () => slides.clientWidth * 0.9;
+      prev?.addEventListener('click', () => slides.scrollBy({left: -step(), behavior:'smooth'}));
+      next?.addEventListener('click', () => slides.scrollBy({left: step(), behavior:'smooth'}));
+      // touch inertia is native; no extra logic needed
+    });
+
+    // Masonry lightbox-ready: prevent default to allow later lightbox lib
+    $$('.masonry .m-item').forEach(a => {
+      a.addEventListener('click', e => {
+        // Placeholder: keep href for external lightbox; no-op here
+        e.preventDefault();
+      });
+    });
+
+    // Contact form feedback
+    const form = $('.contact-form');
+    const note = $('#formNote');
+    const ping = $('#formPing');
+    ping?.addEventListener('click', () => {
+      if (!form || !note) return;
+      note.textContent = 'Thanks! We will reach out on WhatsApp shortly.';
+      setTimeout(()=> note.textContent='', 4000);
+    });
+
+    // Parallax subtle effect in hero
+    const l1 = $('.layer-1');
+    const l2 = $('.layer-2');
+    if (l1 || l2){
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY || 0;
+        if (l1) l1.style.transform = `translateY(${y*0.04}px)`;
+        if (l2) l2.style.transform = `translateY(${y*0.08}px)`;
+      }, { passive: true });
+      window.addEventListener('mousemove', (e) => {
+        const cx = window.innerWidth/2, cy = window.innerHeight/2;
+        const dx = (e.clientX - cx)/cx, dy = (e.clientY - cy)/cy;
+        if (l1) l1.style.transform += ` translate(${dx*4}px, ${dy*2}px)`;
+        if (l2) l2.style.transform += ` translate(${dx*8}px, ${dy*4}px)`;
+      }, { passive: true });
+    }
   });
-
-  function setupSlider(root){
-    const prev = root.querySelector('.prev');
-    const next = root.querySelector('.next');
-    const track = root.querySelector('.slides');
-    if (!track) return;
-    const step = () => track.clientWidth * 0.9;
-    if (prev) prev.addEventListener('click', () => track.scrollBy({left: -step(), behavior:'smooth'}));
-    if (next) next.addEventListener('click', () => track.scrollBy({left: step(), behavior:'smooth'}));
-  }
-
-  function initSparks(){
-    const canvas = document.getElementById('sparkCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let w, h, dpr;
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = canvas.width = Math.floor(innerWidth * dpr);
-      h = canvas.height = Math.floor(Math.max(innerHeight*0.6, 400) * dpr);
-      canvas.style.width = '100%';
-      canvas.style.height = Math.max(innerHeight*0.6, 400)+'px';
-    }
-    resize(); window.addEventListener('resize', resize);
-
-    const sparks = [];
-    function burst(){
-      const cx = w*0.5, cy = h*0.45; const n = 80;
-      for(let i=0;i<n;i++){
-        const ang = Math.random()*Math.PI*2;
-        const spd = Math.random()*2 + 0.8;
-        sparks.push({ x: cx, y: cy, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, life: 90, c: randColor() });
-      }
-    }
-    function randColor(){
-      const arr = ['#ffd34e','#ff7a18','#ff3d81','#7cffcb','#8a2be2','#00c2ff'];
-      return arr[(Math.random()*arr.length)|0];
-    }
-
-    let last=0; function loop(t){
-      requestAnimationFrame(loop);
-      if (!last) last = t; const dt = Math.min(33, t-last); last = t;
-      ctx.fillStyle = 'rgba(0,0,0,0.20)'; ctx.fillRect(0,0,w,h);
-      if (Math.random()<0.03) burst();
-      for (let i=sparks.length-1;i>=0;i--){
-        const p = sparks[i];
-        p.x += p.vx; p.y += p.vy; p.vy += 0.01; p.life -= dt/16;
-        if (p.life<=0) { sparks.splice(i,1); continue; }
-        ctx.globalAlpha = Math.max(0, p.life/90);
-        ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, 2*dpr, 0, Math.PI*2); ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-    }
-    requestAnimationFrame(loop);
-  }
 })();
