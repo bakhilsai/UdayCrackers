@@ -1,152 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uday Crackers - Light Up Your Celebrations!</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Baloo+Bhai+2:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uday Crackers — Light Up Your Celebrations</title>
+  <meta name="description" content="Gen-Z festive firecrackers shop with vibrant UI, interactive product cards, deals, timers, and more." />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Icons -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <!-- Preload hero image for LCP -->
+  <link rel="preload" as="image" href="assets/hero/diwali-sky.webp" imagesrcset="assets/hero/diwali-sky.webp 1200w, assets/hero/diwali-sky@2x.webp 2000w" imagesizes="100vw">
 </head>
 <body>
+  <!-- Sticky Navbar (Upgraded) -->
+  <!-- Added sticky, glassmorphism, active link highlight, mobile drawer -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand">
+        <img src="assets/logo.svg" alt="Uday Crackers" width="36" height="36" loading="eager" />
+        <span>Uday Crackers</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#home" class="active">Home</a>
+        <a href="#products">Products</a>
+        <a href="#deals">Deals</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="mobile-drawer" hidden>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#deals">Deals</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
 
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Uday Crackers</h1>
-                <p>Light up your celebrations with Uday Crackers!</p>
+  <!-- Animated Hero (Gen-Z gradient, parallax, spark particles) -->
+  <!-- Includes CTA, sound toggle, festive confetti trigger -->
+  <section id="home" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="parallax layer-1"></div>
+      <div class="parallax layer-2"></div>
+      <canvas id="sparkCanvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="container hero-content">
+      <h1><span class="shine">Light</span> up your <span class="glow">celebrations</span> 🎆</h1>
+      <p>Handpicked crackers, Gen-Z vibes, safe quality, and blazing deals.</p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#products">Shop Trending</a>
+        <a class="btn ghost" href="https://wa.me/916303868813" target="_blank" rel="noopener">Order on WhatsApp</a>
+        <button id="soundToggle" class="icon-btn" aria-pressed="false" title="Toggle festive sound">🔊</button>
+      </div>
+      <div class="countdown" role="timer" aria-live="polite">
+        <span class="label">Diwali Mega Sale ends in</span>
+        <div id="countdownTimer" class="timer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid (Hover crackle, tilt, quick cart) -->
+  <!-- Cards include lazy images, price badges, and WhatsApp CTA -->
+  <section id="products" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Trending Now</h2>
+        <p>Fresh drops with sparkle effects. Tap to feel the crackle.</p>
+      </div>
+      <div class="grid products-grid">
+        <article class="card product" tabindex="0">
+          <img src="assets/products/flower-pot.webp" alt="Golden Flower Pots" loading="lazy" width="320" height="240"/>
+          <div class="card-body">
+            <h3>Golden Flower Pots</h3>
+            <p>A classic shower of glittering sparks. Gen-Z approved ✨</p>
+            <div class="meta"><span class="price">₹299</span><span class="tag hot">HOT</span></div>
+            <div class="actions">
+              <button class="btn small crack-btn" data-sound="assets/sfx/crackle.mp3">Crackle</button>
+              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Golden%20Flower%20Pots" target="_blank" rel="noopener">WhatsApp</a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#family-packs">Family Packs</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+          </div>
+        </article>
+        <article class="card product" tabindex="0">
+          <img src="assets/products/rockets.webp" alt="Whistling Rocket Assortment" loading="lazy" width="320" height="240"/>
+          <div class="card-body">
+            <h3>Whistling Rockets</h3>
+            <p>Sky-high thrills with whistle vibes 🚀</p>
+            <div class="meta"><span class="price">₹499</span><span class="tag new">NEW</span></div>
+            <div class="actions">
+              <button class="btn small crack-btn" data-sound="assets/sfx/whistle.mp3">Whistle</button>
+              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Whistling%20Rockets" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </div>
+        </article>
+        <article class="card product" tabindex="0">
+          <img src="assets/products/sparklers.webp" alt="Silver Sparklers" loading="lazy" width="320" height="240"/>
+          <div class="card-body">
+            <h3>Silver Sparklers</h3>
+            <p>Minimal smoke. Max aesthetic for reels ✨</p>
+            <div class="meta"><span class="price">₹149</span><span class="tag eco">ECO</span></div>
+            <div class="actions">
+              <button class="btn small crack-btn" data-sound="assets/sfx/spark.mp3">Spark</button>
+              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Silver%20Sparklers" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deals/Family Packs (Cards slider) -->
+  <!-- Added slider arrows, touch swipe, and parallax badges -->
+  <section id="deals" class="section alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Family Packs</h2>
+        <p>Bundle up. More fun, less spend.</p>
+      </div>
+      <div class="slider" data-slider>
+        <button class="slide-nav prev" aria-label="Previous">‹</button>
+        <div class="slides">
+          <article class="card pack">
+            <h3>Mini Celebration Pack</h3>
+            <ul>
+              <li>Sparklers x10</li>
+              <li>Flower Pots x5</li>
+              <li>Chakris x4</li>
+            </ul>
+            <div class="meta"><span class="price">₹999</span><span class="tag deal">SAVE 15%</span></div>
+            <a class="btn" href="https://wa.me/916303868813?text=Mini%20Celebration%20Pack" target="_blank" rel="noopener">Order</a>
+          </article>
+          <article class="card pack">
+            <h3>Squad Goals Pack</h3>
+            <ul>
+              <li>Rockets x8</li>
+              <li>Flower Pots x10</li>
+              <li>Sparklers x20</li>
+            </ul>
+            <div class="meta"><span class="price">₹1999</span><span class="tag deal">SAVE 20%</span></div>
+            <a class="btn" href="https://wa.me/916303868813?text=Squad%20Goals%20Pack" target="_blank" rel="noopener">Order</a>
+          </article>
+          <article class="card pack">
+            <h3>Ultimate Festival Pack</h3>
+            <ul>
+              <li>Rockets x15</li>
+              <li>Ground Spinners x8</li>
+              <li>Sparklers x30</li>
+            </ul>
+            <div class="meta"><span class="price">₹3499</span><span class="tag deal">SAVE 28%</span></div>
+            <a class="btn" href="https://wa.me/916303868813?text=Ultimate%20Festival%20Pack" target="_blank" rel="noopener">Order</a>
+          </article>
         </div>
-    </header>
+        <button class="slide-nav next" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h2>Welcome to Uday Crackers</h2>
-                <p>The best place to find crackers for your celebrations.</p>
-            </div>
-        </section>
+  <!-- Dynamic Gallery (Masonry + Lightbox) -->
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Glow Gallery</h2>
+        <p>Snaps from our community. Tag your reels with #UdayCrackers.</p>
+      </div>
+      <div class="masonry">
+        <a href="assets/gallery/g1.webp" class="m-item"><img src="assets/gallery/g1.webp" alt="Gallery 1" loading="lazy"/></a>
+        <a href="assets/gallery/g2.webp" class="m-item"><img src="assets/gallery/g2.webp" alt="Gallery 2" loading="lazy"/></a>
+        <a href="assets/gallery/g3.webp" class="m-item"><img src="assets/gallery/g3.webp" alt="Gallery 3" loading="lazy"/></a>
+        <a href="assets/gallery/g4.webp" class="m-item"><img src="assets/gallery/g4.webp" alt="Gallery 4" loading="lazy"/></a>
+      </div>
+    </div>
+  </section>
 
-        <section id="family-packs">
-            <div class="container">
-                <h2>Family Packs</h2>
-                <div class="pack-grid">
-                    <!-- Family Pack Cards will be inserted here -->
-                    <div class="pack-card">
-                        <h3>🎉 Mini Celebration Pack</h3>
-                        <p>₹999</p>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order Now on WhatsApp</a>
-                    </div>
-                    <div class="pack-card">
-                        <h3>💫 Classic Pack</h3>
-                        <p>₹1999</p>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order Now on WhatsApp</a>
-                    </div>
-                    <div class="pack-card">
-                        <h3>🌟 Premium Pack</h3>
-                        <p>₹2999</p>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order Now on WhatsApp</a>
-                    </div>
-                    <div class="pack-card">
-                        <h3>🔥 Grand Celebration Pack</h3>
-                        <p>₹4999</p>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order Now on WhatsApp</a>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-        <section id="products">
-            <div class="container">
-                <h2>Our Products</h2>
-                <div class="product-grid">
-                    <!-- Product Cards will be inserted here -->
-                    <div class="product-card">
-                        <h3>Sky Blaster Shots</h3>
-                        <p>A dazzling display of colors that light up the night sky.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                    <div class="product-card">
-                        <h3>Glitter Bomb Fountain</h3>
-                        <p>A beautiful fountain of glittering sparks.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                    <div class="product-card">
-                        <h3>Thunder Spark Wheel</h3>
-                        <p>A spinning wheel of thunderous sparks.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                    <div class="product-card">
-                        <h3>Neon Rockets</h3>
-                        <p>Rockets that whistle their way to a neon burst.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>Color-Changing Ground Spinners</h3>
-                        <p>A vibrant and dynamic spinning light show on the ground.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>Multi-Colored Smoke Bombs</h3>
-                        <p>Create a stunning visual effect with vibrant, billowing smoke.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>Golden Flower Pots</h3>
-                        <p>A classic firework that showers the ground in a golden rain.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>Whistling Rocket Assortment</h3>
-                        <p>A fun and exciting collection of rockets that whistle and pop.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>Silver Twinkling Stars</h3>
-                        <p>A beautiful and elegant display of twinkling silver lights.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                     <div class="product-card">
-                        <h3>100-Wala Garland Crackers</h3>
-                        <p>A long-lasting and exciting series of loud bangs.</p>
-                        <span>₹₹₹</span>
-                        <a href="https://wa.me/916303868813" class="whatsapp-btn" target="_blank">Order on WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer id="contact">
-        <div class="container">
-            <div class="contact-info">
-                <p><strong>Location:</strong> Stall no. 909, AU Grounds, Maddilapalem</p>
-                <p><strong>Phone:</strong> +91 84660 55453</p>
-            </div>
-            <div class="order-prompt">
-                <p>🎆 To order your favorite crackers, click below! 🎆</p>
-                <a href="https://wa.me/916303868813" class="whatsapp-btn-large" target="_blank">👉 Order on WhatsApp</a>
-            </div>
+  <!-- Reviews Slider -->
+  <section id="reviews" class="section alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>What People Say</h2>
+        <p>Rated lit by our community 🔥</p>
+      </div>
+      <div class="slider" data-slider>
+        <button class="slide-nav prev" aria-label="Previous">‹</button>
+        <div class="slides">
+          <blockquote class="card review">“Best Diwali vibes! Safe quality and super aesthetic.” — Aanya</blockquote>
+          <blockquote class="card review">“Affordable packs, fast reply on WhatsApp. 10/10.” — Karan</blockquote>
+          <blockquote class="card review">“The crackle effect on site is crazy fun.” — Neha</blockquote>
         </div>
-    </footer>
+        <button class="slide-nav next" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- Contact / CTA -->
+  <section id="contact" class="section">
+    <div class="container contact">
+      <div>
+        <h2>Contact & Orders</h2>
+        <p>Ping us for price lists, bulk deals, or custom packs.</p>
+        <ul class="contact-list">
+          <li>📞 <a href="tel:+91916303868813">+91 63038 68813</a></li>
+          <li>💬 <a href="https://wa.me/916303868813" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li>📧 <a href="mailto:udaycrackers@example.com">udaycrackers@example.com</a></li>
+        </ul>
+      </div>
+      <form class="contact-form" onsubmit="return false;" aria-label="Quick message form">
+        <label>
+          <span>Name</span>
+          <input type="text" placeholder="Your name" required />
+        </label>
+        <label>
+          <span>Phone</span>
+          <input type="tel" placeholder="Your phone" required />
+        </label>
+        <label>
+          <span>Message</span>
+          <textarea placeholder="What are you looking for?" rows="3" required></textarea>
+        </label>
+        <button class="btn primary" id="formPing">Send</button>
+        <p id="formNote" class="form-note" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="year"></span> Uday Crackers. Celebrate responsibly. Follow local laws.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="YouTube">▶️</a>
+        <a href="#" aria-label="X">𝕏</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Festive Popup (once per session) -->
+  <dialog id="festivePopup" class="popup">
+    <form method="dialog">
+      <h3>Diwali Deals are LIVE ✨</h3>
+      <p>Extra 5% off on WhatsApp orders today!</p>
+      <button class="btn primary">Let's go</button>
+    </form>
+  </dialog>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+  <!-- Notes: Major upgrades
+    - New sticky glass navbar with mobile drawer
+    - Animated hero with parallax, spark canvas, countdown, sound toggle
+    - Product cards with hover crackle and WhatsApp CTAs
+    - Family packs slider and reviews slider
+    - Masonry gallery with lightbox-ready markup
+    - Contact form feedback (no backend) + accessibility improvements
+    - Responsive layout with CSS grid/flex and clamp typography
+    - Lazy loading, image preloads, and asset optimizations hooks
+  -->
 </body>
 </html>
