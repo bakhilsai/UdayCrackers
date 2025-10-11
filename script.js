@@ -1,157 +1,151 @@
-// Uday Crackers Diwali Interactivity
-// - Fireworks Canvas (lightweight)
-// - Animated CTA pulse
-// - Card selection + hover emphasis is CSS-driven, selection toggled via JS
-// - Countdown timer to Diwali/offers
-// - Social share API fallback
-// - Sticky nav smooth scroll and active state
+// Uday Crackers — Gen-Z Interactive Script
+// Features:
+// - Mobile nav drawer toggle
+// - Hero spark canvas particles
+// - Countdown timer
+// - Product card sound effects
+// - Sliders (deals/reviews)
+// - Masonry lightbox placeholder
+// - Festive popup + contact form feedback
 
-(function(){
-  const $ = (s,root=document)=>root.querySelector(s);
-  const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scrolling
-    $$('.navbar nav a').forEach(a => a.addEventListener('click', e => {
-      const href = a.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        e.preventDefault();
-        const el = $(href);
-        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-      }
-    }));
-
-    // CTA pulse animation via JS class toggle (in case user prefers reduced motion, they can disable animations via OS)
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReduced) {
-      setInterval(() => {
-        $$('.btn.cta').forEach(b => {
-          b.classList.toggle('pulse');
-          setTimeout(()=>b.classList.toggle('pulse'), 600);
-        });
-      }, 2800);
-    }
-
-    // Card selection
-    $$('.card.selectable .select').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const card = e.currentTarget.closest('.card.selectable');
-        if (!card) return;
-        card.classList.toggle('selected');
+    // Mobile menu
+    const burger = $('.hamburger');
+    const drawer = $('#mobileMenu');
+    if (burger && drawer) {
+      burger.addEventListener('click', () => {
+        const open = drawer.hasAttribute('hidden') ? false : true;
+        if (open) drawer.setAttribute('hidden',''); else drawer.removeAttribute('hidden');
+        burger.setAttribute('aria-expanded', String(!open));
       });
-    });
-
-    // Countdown to Diwali (adjust target date as needed)
-    const countdown = $('#countdown');
-    function nextDiwaliApprox(){
-      // Approximate date: Nov 1 2025 00:00 local (can be changed)
-      const now = new Date();
-      const year = now.getFullYear();
-      const target = new Date('2025-10-29T00:00:00'); // Example Diwali 2025
-      return target;
+      drawer.addEventListener('click', e => {
+        if (e.target.tagName === 'A') { drawer.setAttribute('hidden',''); burger.setAttribute('aria-expanded','false'); }
+      });
     }
+
+    // Smooth scroll and active link
+    $$('.nav-links a').forEach(a => a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      const el = $(href);
+      if (el) el.scrollIntoView({behavior:'smooth'});
+    }));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = '#'+entry.target.id;
+          $$('.nav-links a').forEach(l => l.classList.toggle('active', l.getAttribute('href')===id));
+        }
+      });
+    }, { threshold: 0.6 });
+    ['home','products','deals','gallery','reviews','contact'].forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+
+    // Countdown
+    const timerEl = $('#countdownTimer');
+    function targetDate(){ return new Date('2025-10-29T00:00:00'); }
     function tick(){
-      if (!countdown) return;
-      const t = nextDiwaliApprox().getTime() - Date.now();
-      if (t <= 0) { countdown.textContent = 'Happy Diwali! Offers Live ✨'; return; }
+      if (!timerEl) return;
+      const t = targetDate().getTime() - Date.now();
+      if (t <= 0) { timerEl.textContent = 'Live now ✨'; return; }
       const d = Math.floor(t/86400000);
       const h = Math.floor((t%86400000)/3600000);
       const m = Math.floor((t%3600000)/60000);
       const s = Math.floor((t%60000)/1000);
-      countdown.textContent = `${d}d ${h}h ${m}m ${s}s`;
+      timerEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
     }
-    tick();
-    setInterval(tick, 1000);
+    tick(); setInterval(tick, 1000);
 
-    // Share button
-    const shareBtn = $('#shareBtn');
-    if (shareBtn) {
-      shareBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const data = { title: 'Uday Crackers', text: 'Light up your Diwali with Uday Crackers!', url: location.href };
-        if (navigator.share) {
-          try { await navigator.share(data); } catch {}
-        } else {
-          // Fallback: open Twitter intent
-          const u = encodeURIComponent(data.url);
-          const t = encodeURIComponent(data.text);
-          window.open(`https://twitter.com/intent/tweet?url=${u}&text=${t}`, '_blank');
-        }
+    // Product card sounds
+    const audioCache = new Map();
+    function play(url){
+      if (!url) return;
+      let a = audioCache.get(url);
+      if (!a) { a = new Audio(url); audioCache.set(url,a); }
+      a.currentTime = 0; a.play().catch(()=>{});
+    }
+    $$('.crack-btn').forEach(btn => btn.addEventListener('click', () => play(btn.dataset.sound)));
+
+    // Hero spark particles
+    initSparks();
+
+    // Sliders
+    $$('.slider').forEach(setupSlider);
+
+    // Popup once per session
+    const pop = $('#festivePopup');
+    if (pop && !sessionStorage.getItem('festivalSeen')) {
+      pop.showModal();
+      pop.addEventListener('close', () => sessionStorage.setItem('festivalSeen','1'), { once: true });
+    }
+
+    // Contact mock submit
+    const formBtn = $('#formPing');
+    const note = $('#formNote');
+    if (formBtn && note) {
+      formBtn.addEventListener('click', () => {
+        note.textContent = 'Thanks! We will reach out on WhatsApp shortly.';
+        setTimeout(()=> note.textContent = '', 4000);
       });
     }
 
-    // Year in footer
-    const yearEl = $('#year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // Lightweight fireworks animation
-    initFireworks();
+    // Footer year
+    const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
   });
 
-  function initFireworks(){
-    const canvas = document.getElementById('fireworks');
+  function setupSlider(root){
+    const prev = root.querySelector('.prev');
+    const next = root.querySelector('.next');
+    const track = root.querySelector('.slides');
+    if (!track) return;
+    const step = () => track.clientWidth * 0.9;
+    if (prev) prev.addEventListener('click', () => track.scrollBy({left: -step(), behavior:'smooth'}));
+    if (next) next.addEventListener('click', () => track.scrollBy({left: step(), behavior:'smooth'}));
+  }
+
+  function initSparks(){
+    const canvas = document.getElementById('sparkCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let w, h, dpr;
     function resize(){
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = canvas.width = Math.floor(innerWidth * dpr);
-      h = canvas.height = Math.floor(innerHeight * dpr * 0.88);
+      h = canvas.height = Math.floor(Math.max(innerHeight*0.6, 400) * dpr);
       canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      ctx.setTransform(1,0,0,1,0,0);
+      canvas.style.height = Math.max(innerHeight*0.6, 400)+'px';
     }
-    resize();
-    window.addEventListener('resize', resize);
+    resize(); window.addEventListener('resize', resize);
 
-    const particles = [];
-    function spawn(x, y, color){
-      const count = 80;
-      for (let i=0;i<count;i++){
-        const angle = Math.random()*Math.PI*2;
-        const speed = Math.random()*2.2 + 0.8;
-        particles.push({
-          x, y,
-          vx: Math.cos(angle)*speed,
-          vy: Math.sin(angle)*speed,
-          life: 60 + Math.random()*30,
-          color,
-          alpha: 1,
-        });
+    const sparks = [];
+    function burst(){
+      const cx = w*0.5, cy = h*0.45; const n = 80;
+      for(let i=0;i<n;i++){
+        const ang = Math.random()*Math.PI*2;
+        const spd = Math.random()*2 + 0.8;
+        sparks.push({ x: cx, y: cy, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, life: 90, c: randColor() });
       }
     }
-    function randomColor(){
-      const colors = ['#ffd34e','#ff7a18','#ff3d81','#7cffcb','#8a2be2','#00c2ff'];
-      return colors[(Math.random()*colors.length)|0];
+    function randColor(){
+      const arr = ['#ffd34e','#ff7a18','#ff3d81','#7cffcb','#8a2be2','#00c2ff'];
+      return arr[(Math.random()*arr.length)|0];
     }
 
-    let last = 0;
-    function loop(t){
+    let last=0; function loop(t){
       requestAnimationFrame(loop);
-      if (!last) last = t; const dt = Math.min(33, t - last); last = t;
-      ctx.fillStyle = 'rgba(0,0,0,0.25)';
-      ctx.fillRect(0,0,w,h);
-
-      // Occasionally launch a burst from random position near top/bottom thirds
-      if (Math.random() < 0.04) {
-        const x = Math.random()*w*0.9 + w*0.05;
-        const y = Math.random()*h*0.4 + h*0.1;
-        spawn(x, y, randomColor());
-      }
-
-      for (let i=particles.length-1;i>=0;i--){
-        const p = particles[i];
-        p.x += p.vx * dpr;
-        p.y += p.vy * dpr;
-        p.vy += 0.02; // gravity
-        p.life -= dt/16;
-        p.alpha = Math.max(0, p.life/90);
-        if (p.life <= 0) { particles.splice(i,1); continue; }
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.8*dpr, 0, Math.PI*2);
-        ctx.fill();
+      if (!last) last = t; const dt = Math.min(33, t-last); last = t;
+      ctx.fillStyle = 'rgba(0,0,0,0.20)'; ctx.fillRect(0,0,w,h);
+      if (Math.random()<0.03) burst();
+      for (let i=sparks.length-1;i>=0;i--){
+        const p = sparks[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.01; p.life -= dt/16;
+        if (p.life<=0) { sparks.splice(i,1); continue; }
+        ctx.globalAlpha = Math.max(0, p.life/90);
+        ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, 2*dpr, 0, Math.PI*2); ctx.fill();
       }
       ctx.globalAlpha = 1;
     }
