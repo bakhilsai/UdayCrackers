@@ -5,36 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Uday Crackers — Light Up Your Celebrations</title>
   <meta name="description" content="Gen-Z festive firecrackers shop with vibrant UI, interactive product cards, deals, timers, and more." />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Styles -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css" />
-  <!-- Icons -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-  <!-- Preload hero image for LCP -->
-  <link rel="preload" as="image" href="assets/hero/diwali-sky.webp" imagesrcset="assets/hero/diwali-sky.webp 1200w, assets/hero/diwali-sky@2x.webp 2000w" imagesizes="100vw">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml"/>
+  <link rel="preload" as="image" href="assets/hero/diwali-sky.webp" imagesrcset="assets/hero/diwali-sky.webp 1200w, assets/hero/diwali-sky@2x.webp 2000w" imagesizes="100vw" />
 </head>
 <body>
-  <!-- Sticky Navbar (Upgraded) -->
-  <!-- Added sticky, glassmorphism, active link highlight, mobile drawer -->
   <header class="navbar">
     <div class="container nav-inner">
-      <a href="#home" class="brand">
-        <img src="assets/logo.svg" alt="Uday Crackers" width="36" height="36" loading="eager" />
+      <a class="brand" href="#home">
+        <img src="assets/logo.svg" alt="Uday Crackers" width="36" height="36" loading="eager"/>
         <span>Uday Crackers</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="#home" class="active">Home</a>
+        <a class="active" href="#home">Home</a>
         <a href="#products">Products</a>
         <a href="#deals">Deals</a>
         <a href="#gallery">Gallery</a>
         <a href="#reviews">Reviews</a>
         <a href="#contact">Contact</a>
       </nav>
-      <button class="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"></button>
     </div>
     <div id="mobileMenu" class="mobile-drawer" hidden>
       <a href="#home">Home</a>
@@ -46,8 +40,6 @@
     </div>
   </header>
 
-  <!-- Animated Hero (Gen-Z gradient, parallax, spark particles) -->
-  <!-- Includes CTA, sound toggle, festive confetti trigger -->
   <section id="home" class="hero">
     <div class="hero-bg" aria-hidden="true">
       <div class="parallax layer-1"></div>
@@ -58,7 +50,7 @@
       <h1><span class="shine">Light</span> up your <span class="glow">celebrations</span> 🎆</h1>
       <p>Handpicked crackers, Gen-Z vibes, safe quality, and blazing deals.</p>
       <div class="hero-cta">
-        <a class="btn primary" href="#products">Shop Trending</a>
+        <a href="#products" class="btn primary">Shop Trending</a>
         <a class="btn ghost" href="https://wa.me/916303868813" target="_blank" rel="noopener">Order on WhatsApp</a>
         <button id="soundToggle" class="icon-btn" aria-pressed="false" title="Toggle festive sound">🔊</button>
       </div>
@@ -69,8 +61,6 @@
     </div>
   </section>
 
-  <!-- Products Grid (Hover crackle, tilt, quick cart) -->
-  <!-- Cards include lazy images, price badges, and WhatsApp CTA -->
   <section id="products" class="section">
     <div class="container">
       <div class="section-header">
@@ -79,38 +69,38 @@
       </div>
       <div class="grid products-grid">
         <article class="card product" tabindex="0">
-          <img src="assets/products/flower-pot.webp" alt="Golden Flower Pots" loading="lazy" width="320" height="240"/>
+          <img src="assets/products/flower-pot.webp" alt="Golden Flower Pots" width="320" height="240" loading="lazy"/>
           <div class="card-body">
             <h3>Golden Flower Pots</h3>
             <p>A classic shower of glittering sparks. Gen-Z approved ✨</p>
             <div class="meta"><span class="price">₹299</span><span class="tag hot">HOT</span></div>
             <div class="actions">
               <button class="btn small crack-btn" data-sound="assets/sfx/crackle.mp3">Crackle</button>
-              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Golden%20Flower%20Pots" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn small whats" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=I'm%20interested%20in%20Golden%20Flower%20Pots%20(₹299)">WhatsApp</a>
             </div>
           </div>
         </article>
         <article class="card product" tabindex="0">
-          <img src="assets/products/rockets.webp" alt="Whistling Rocket Assortment" loading="lazy" width="320" height="240"/>
+          <img src="assets/products/rocket.webp" alt="Whistling Rocket Assortment" width="320" height="240" loading="lazy"/>
           <div class="card-body">
             <h3>Whistling Rockets</h3>
             <p>Sky-high thrills with whistle vibes 🚀</p>
             <div class="meta"><span class="price">₹499</span><span class="tag new">NEW</span></div>
             <div class="actions">
               <button class="btn small crack-btn" data-sound="assets/sfx/whistle.mp3">Whistle</button>
-              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Whistling%20Rockets" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn small whats" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=I'm%20interested%20in%20Whistling%20Rockets%20(₹499)">WhatsApp</a>
             </div>
           </div>
         </article>
         <article class="card product" tabindex="0">
-          <img src="assets/products/sparklers.webp" alt="Silver Sparklers" loading="lazy" width="320" height="240"/>
+          <img src="assets/products/sparkler.webp" alt="Silver Sparklers" width="320" height="240" loading="lazy"/>
           <div class="card-body">
             <h3>Silver Sparklers</h3>
             <p>Minimal smoke. Max aesthetic for reels ✨</p>
             <div class="meta"><span class="price">₹149</span><span class="tag eco">ECO</span></div>
             <div class="actions">
               <button class="btn small crack-btn" data-sound="assets/sfx/spark.mp3">Spark</button>
-              <a class="btn small whats" href="https://wa.me/916303868813?text=Interested%20in%20Silver%20Sparklers" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn small whats" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=I'm%20interested%20in%20Silver%20Sparklers%20(₹149)">WhatsApp</a>
             </div>
           </div>
         </article>
@@ -118,8 +108,6 @@
     </div>
   </section>
 
-  <!-- Deals/Family Packs (Cards slider) -->
-  <!-- Added slider arrows, touch swipe, and parallax badges -->
   <section id="deals" class="section alt">
     <div class="container">
       <div class="section-header">
@@ -137,7 +125,7 @@
               <li>Chakris x4</li>
             </ul>
             <div class="meta"><span class="price">₹999</span><span class="tag deal">SAVE 15%</span></div>
-            <a class="btn" href="https://wa.me/916303868813?text=Mini%20Celebration%20Pack" target="_blank" rel="noopener">Order</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=Order%20Mini%20Celebration%20Pack%20(₹999)">Order</a>
           </article>
           <article class="card pack">
             <h3>Squad Goals Pack</h3>
@@ -147,7 +135,7 @@
               <li>Sparklers x20</li>
             </ul>
             <div class="meta"><span class="price">₹1999</span><span class="tag deal">SAVE 20%</span></div>
-            <a class="btn" href="https://wa.me/916303868813?text=Squad%20Goals%20Pack" target="_blank" rel="noopener">Order</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=Order%20Squad%20Goals%20Pack%20(₹1999)">Order</a>
           </article>
           <article class="card pack">
             <h3>Ultimate Festival Pack</h3>
@@ -157,7 +145,7 @@
               <li>Sparklers x30</li>
             </ul>
             <div class="meta"><span class="price">₹3499</span><span class="tag deal">SAVE 28%</span></div>
-            <a class="btn" href="https://wa.me/916303868813?text=Ultimate%20Festival%20Pack" target="_blank" rel="noopener">Order</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://wa.me/916303868813?text=Order%20Ultimate%20Festival%20Pack%20(₹3499)">Order</a>
           </article>
         </div>
         <button class="slide-nav next" aria-label="Next">›</button>
@@ -165,7 +153,6 @@
     </div>
   </section>
 
-  <!-- Dynamic Gallery (Masonry + Lightbox) -->
   <section id="gallery" class="section">
     <div class="container">
       <div class="section-header">
@@ -173,15 +160,14 @@
         <p>Snaps from our community. Tag your reels with #UdayCrackers.</p>
       </div>
       <div class="masonry">
-        <a href="assets/gallery/g1.webp" class="m-item"><img src="assets/gallery/g1.webp" alt="Gallery 1" loading="lazy"/></a>
-        <a href="assets/gallery/g2.webp" class="m-item"><img src="assets/gallery/g2.webp" alt="Gallery 2" loading="lazy"/></a>
-        <a href="assets/gallery/g3.webp" class="m-item"><img src="assets/gallery/g3.webp" alt="Gallery 3" loading="lazy"/></a>
-        <a href="assets/gallery/g4.webp" class="m-item"><img src="assets/gallery/g4.webp" alt="Gallery 4" loading="lazy"/></a>
+        <a class="m-item" href="assets/gallery/g1.webp"><img src="assets/gallery/g1-thumb.webp" width="400" height="300" alt="Gallery 1" loading="lazy"/></a>
+        <a class="m-item" href="assets/gallery/g2.webp"><img src="assets/gallery/g2-thumb.webp" width="400" height="500" alt="Gallery 2" loading="lazy"/></a>
+        <a class="m-item" href="assets/gallery/g3.webp"><img src="assets/gallery/g3-thumb.webp" width="400" height="350" alt="Gallery 3" loading="lazy"/></a>
+        <a class="m-item" href="assets/gallery/g4.webp"><img src="assets/gallery/g4-thumb.webp" width="400" height="320" alt="Gallery 4" loading="lazy"/></a>
       </div>
     </div>
   </section>
 
-  <!-- Reviews Slider -->
   <section id="reviews" class="section alt">
     <div class="container">
       <div class="section-header">
@@ -200,50 +186,44 @@
     </div>
   </section>
 
-  <!-- Contact / CTA -->
   <section id="contact" class="section">
     <div class="container contact">
       <div>
-        <h2>Contact & Orders</h2>
+        <h2>Contact &amp; Orders</h2>
         <p>Ping us for price lists, bulk deals, or custom packs.</p>
         <ul class="contact-list">
-          <li>📞 <a href="tel:+91916303868813">+91 63038 68813</a></li>
+          <li>📞 <a href="tel:+916303868813">+91 63038 68813</a></li>
           <li>💬 <a href="https://wa.me/916303868813" target="_blank" rel="noopener">WhatsApp</a></li>
           <li>📧 <a href="mailto:udaycrackers@example.com">udaycrackers@example.com</a></li>
         </ul>
       </div>
-      <form class="contact-form" onsubmit="return false;" aria-label="Quick message form">
-        <label>
-          <span>Name</span>
+      <form class="contact-form" aria-label="Quick message form" onsubmit="return false;">
+        <label> Name
           <input type="text" placeholder="Your name" required />
         </label>
-        <label>
-          <span>Phone</span>
+        <label> Phone
           <input type="tel" placeholder="Your phone" required />
         </label>
-        <label>
-          <span>Message</span>
-          <textarea placeholder="What are you looking for?" rows="3" required></textarea>
+        <label> Message
+          <textarea rows="3" placeholder="What are you looking for?" required></textarea>
         </label>
-        <button class="btn primary" id="formPing">Send</button>
+        <button id="formPing" class="btn primary">Send</button>
         <p id="formNote" class="form-note" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>© <span id="year"></span> Uday Crackers. Celebrate responsibly. Follow local laws.</p>
       <div class="socials">
-        <a href="#" aria-label="Instagram">📸</a>
-        <a href="#" aria-label="YouTube">▶️</a>
-        <a href="#" aria-label="X">𝕏</a>
+        <a aria-label="Instagram" href="#">📸</a>
+        <a aria-label="YouTube" href="#">▶️</a>
+        <a aria-label="X" href="#">𝕏</a>
       </div>
     </div>
   </footer>
 
-  <!-- Festive Popup (once per session) -->
   <dialog id="festivePopup" class="popup">
     <form method="dialog">
       <h3>Diwali Deals are LIVE ✨</h3>
@@ -252,17 +232,6 @@
     </form>
   </dialog>
 
-  <!-- Scripts -->
-  <script src="script.js" defer></script>
-  <!-- Notes: Major upgrades
-    - New sticky glass navbar with mobile drawer
-    - Animated hero with parallax, spark canvas, countdown, sound toggle
-    - Product cards with hover crackle and WhatsApp CTAs
-    - Family packs slider and reviews slider
-    - Masonry gallery with lightbox-ready markup
-    - Contact form feedback (no backend) + accessibility improvements
-    - Responsive layout with CSS grid/flex and clamp typography
-    - Lazy loading, image preloads, and asset optimizations hooks
-  -->
+  <script defer src="script.js"></script>
 </body>
 </html>
