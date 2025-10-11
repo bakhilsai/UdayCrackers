@@ -99,7 +99,7 @@ h2 {
 
 .product-grid, .pack-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
@@ -116,6 +116,13 @@ h2 {
 .product-card:hover, .pack-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 0 20px #ffde59, 0 0 40px #ffde59;
+}
+
+.pack-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .product-card h3, .pack-card h3 {
