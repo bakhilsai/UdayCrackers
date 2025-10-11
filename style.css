@@ -1,193 +1,99 @@
-/* General Styles */
+/* Reset and base */
+* { box-sizing: border-box }
+:root {
+  --gold: #ffde59;
+  --orange: #ff9933;
+  --pink: #dd2476;
+  --red: #ff512f;
+  --bg1: #000428; /* deep blue */
+  --bg2: #004e92; /* royal blue */
+}
+html, body { height: 100% }
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #000;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0;
+  color: #fff;
+  background: url('https://www.transparenttextures.com/patterns/stardust.png'), radial-gradient(1200px 600px at 50% -10%, rgba(255, 217, 0, .12), transparent 60%), linear-gradient(180deg, var(--bg1), var(--bg2));
+  background-attachment: fixed;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
+img { max-width: 100%; height: auto; display: block }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+/* Sticky navbar */
+.navbar { position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(8px); background: rgba(0,0,0,.45); border-bottom: 1px solid rgba(255,255,255,.08) }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0 }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .2px }
+.logo img { width: 36px; height: 36px }
+.navbar nav { display: flex; gap: 18px; flex-wrap: wrap }
+.navbar nav a { color: #fff; text-decoration: none; font-weight: 600; opacity: .9; transition: .25s color, .25s text-shadow }
+.navbar nav a:hover { color: var(--gold); text-shadow: 0 0 10px var(--gold) }
+.btn { display: inline-block; border: 0; border-radius: 999px; padding: 12px 22px; font-weight: 700; color: #fff; text-decoration: none; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s }
+.btn.cta, .cta-small { background: linear-gradient(45deg, var(--red), var(--pink)); box-shadow: 0 8px 24px rgba(221, 36, 118, .35) }
+.btn.cta:hover, .cta-small:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 12px 32px rgba(221, 36, 118, .5) }
+.btn.ghost { border: 2px solid rgba(255,255,255,.25); background: transparent }
+.btn.ghost:hover { border-color: var(--gold); color: var(--gold) }
 
-/* Header */
-header {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px 0;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
+/* Hero with fireworks canvas overlay */
+.hero { position: relative; display: grid; place-items: center; min-height: 88vh; text-align: center; isolation: isolate; overflow: hidden }
+#fireworks { position: absolute; inset: 0; z-index: -1 }
+.hero-content h1 { font-family: 'Baloo Bhai 2', system-ui; font-size: clamp(2.2rem, 4vw + 1rem, 4rem); margin: 0 0 10px; color: var(--gold); text-shadow: 0 0 18px rgba(255, 222, 89, .9), 0 0 42px rgba(255, 222, 89, .35) }
+.hero-content p { margin: 0 0 18px; opacity: .9 }
+.cta-wrap { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 18px 0 10px }
 
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* Countdown */
+.countdown { margin-top: 14px; font-weight: 700; letter-spacing: .5px; color: var(--orange) }
 
-.logo h1 {
-    font-family: 'Baloo Bhai 2', cursive;
-    font-size: 2.5rem;
-    margin: 0;
-    color: #ffde59;
-    text-shadow: 0 0 10px #ffde59, 0 0 20px #ffde59;
-}
+/* Sections */
+.section { padding: 64px 0 }
+.section-head { text-align: center; margin-bottom: 26px }
+.section-head h2 { font-family: 'Baloo Bhai 2', system-ui; font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem); color: var(--gold); text-shadow: 0 0 10px var(--gold) }
+.section-head p { opacity: .85 }
 
-.logo p {
-    margin: 0;
-    font-size: 0.9rem;
-}
+/* Cards */
+.grid { display: grid; gap: 22px }
+.grid.cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) }
+.card { background: linear-gradient(145deg, rgba(26,26,26,.95), rgba(8,8,8,.95)); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.5); position: relative; transition: transform .25s, box-shadow .25s }
+.card:hover { transform: translateY(-6px); box-shadow: 0 0 18px var(--gold), 0 10px 40px rgba(0,0,0,.6) }
+.card.featured { outline: 2px solid rgba(255, 222, 89, .35) }
+.badge { position: absolute; top: 12px; right: 12px; background: linear-gradient(45deg, var(--red), var(--pink)); padding: 6px 10px; border-radius: 999px; font-size: .78rem; font-weight: 800 }
+.card h3 { margin: 0 0 4px; color: var(--orange) }
+.card .price { margin: 6px 0 10px; color: var(--gold); font-weight: 800; font-size: 1.25rem }
+.card ul { margin: 0 0 12px 18px }
+.card-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap }
+.selectable { cursor: pointer }
+.selectable.selected { outline: 2px solid var(--gold); box-shadow: 0 0 24px rgba(255,222,89,.45) inset, 0 0 22px rgba(255,222,89,.35) }
+.btn.whats { background: #25D366; color: #073d11; font-weight: 800 }
+.btn.whats:hover { filter: brightness(1.05) }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
+/* Products */
+.grid.products { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) }
+.product { background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.06); border-radius: 14px; padding: 14px; transition: transform .2s, box-shadow .2s }
+.product:hover { transform: translateY(-6px); box-shadow: 0 0 14px rgba(255,255,255,.08) }
+.product h3 { margin: 10px 0 6px }
 
-nav li {
-    margin-left: 30px;
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s, text-shadow 0.3s;
-}
-
-nav a:hover {
-    color: #ffde59;
-    text-shadow: 0 0 10px #ffde59;
-}
-
-/* Hero Section */
-.hero {
-    height: 100vh;
-    background: url('https://www.transparenttextures.com/patterns/stardust.png'), linear-gradient(to bottom, #000428, #004e92);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.hero-content h2 {
-    font-family: 'Baloo Bhai 2', cursive;
-    font-size: 4rem;
-    color: #ffde59;
-    text-shadow: 0 0 15px #ffde59, 0 0 30px #ffde59;
-}
-
-/* Products and Family Packs */
-#products, #family-packs {
-    padding: 80px 0;
-    background: #0a0a0a;
-}
-
-h2 {
-    font-family: 'Baloo Bhai 2', cursive;
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 50px;
-    color: #ffde59;
-    text-shadow: 0 0 10px #ffde59;
-}
-
-.product-grid, .pack-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-.product-card, .pack-card {
-    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    border: 1px solid #333;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.product-card:hover, .pack-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 20px #ffde59, 0 0 40px #ffde59;
-}
-
-.product-card h3, .pack-card h3 {
-    font-family: 'Baloo Bhai 2', cursive;
-    font-size: 1.8rem;
-    margin-top: 0;
-    color: #ff9933;
-}
-
-.pack-card p {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #ffde59;
-}
-
-.whatsapp-btn, .whatsapp-btn-large {
-    display: inline-block;
-    background: linear-gradient(45deg, #ff512f, #dd2476);
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 5px 15px rgba(255, 81, 47, 0.4);
-}
-
-.whatsapp-btn:hover, .whatsapp-btn-large:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #ff512f, 0 0 30px #dd2476;
-}
+/* Offers */
+.offers { padding: 24px 0 0 }
 
 /* Footer */
-footer {
-    background: #000;
-    padding: 50px 0;
-    text-align: center;
-}
+.footer { background: #000; border-top: 1px solid rgba(255,255,255,.08); margin-top: 40px; padding: 36px 0 14px }
+.footer-inner { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) }
+.footer a { color: #ddd; text-decoration: none }
+.footer a:hover { color: var(--gold) }
+.social { display: flex; gap: 10px; flex-wrap: wrap }
 
-.contact-info p {
-    margin: 10px 0;
-    font-size: 1.1rem;
-}
+/* Floating WhatsApp widget */
+.wa-float { position: fixed; right: 18px; bottom: 18px; width: 54px; height: 54px; display: grid; place-items: center; background: #25D366; color: #073d11; border-radius: 50%; text-decoration: none; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,.35); z-index: 1200; animation: float 3s ease-in-out infinite }
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
 
-.order-prompt p {
-    font-size: 1.5rem;
-    margin-top: 30px;
-    color: #ffde59;
-}
+/* Small helpers */
+.hidden { display:none }
 
-.whatsapp-btn-large {
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
+/* Performance friendly glow lines overlay */
+body::before, body::after { content:""; position: fixed; inset: -20%; z-index: -2; pointer-events: none; background: radial-gradient(500px 200px at 10% 10%, rgba(255, 188, 66, .08), transparent 60%), radial-gradient(600px 260px at 90% 20%, rgba(255, 222, 89, .08), transparent 60%), radial-gradient(800px 260px at 30% 100%, rgba(221,36,118,.06), transparent 60%) }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    header .container {
-        flex-direction: column;
-    }
-
-    nav {
-        margin-top: 20px;
-    }
-
-    nav li {
-        margin: 0 15px;
-    }
-
-    .hero-content h2 {
-        font-size: 3rem;
-    }
+/* Responsive */
+@media (max-width: 860px) {
+  .nav-inner { flex-wrap: wrap }
 }
